@@ -30,7 +30,7 @@ cur = conn.cursor()
 #print(type(result))
 #((2, 3, 1, datetime.datetime(2024, 10, 4, 23, 8, 1), None, None),)
 
-df = pd.read_csv('la_ll.csv', na_filter=False)
+df = pd.read_csv('data/la_ll.csv', na_filter=False)
 df = df.replace({np.nan: None, 'NULL': None})
 csv_columns = df.columns.tolist()
 

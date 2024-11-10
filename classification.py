@@ -5,7 +5,6 @@ import sys
 import google.generativeai as genai
 import os
 from dotenv import load_dotenv
-
 load_dotenv()
 
 GOOGLE_API_KEY = os.getenv('GOOGLE_API_KEY')
@@ -52,6 +51,7 @@ business_trip = 10
 
 ##############################################################
 
+#유형분류
 result = []
 
 normalAL = dict['NA'] + dict['LA'] #dict['NL'] + dict['LL'] + dict['EL']와 같아야함
@@ -75,6 +75,7 @@ print(result)
 
 ##############################################################
 
+#리포트 생성
 prompt = []
 for element in result:
     if element == '조퇴 빈발형':

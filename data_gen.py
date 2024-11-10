@@ -85,7 +85,7 @@ for date in workdays:
 
 # CSV 파일로 저장
 output_df = pd.DataFrame(records, columns=['ATTEND_RECORD_IDX', 'USER_IDX', 'ATTEND_STATUS', 'REG_DATE'])
-output_df.to_csv('la_ll.csv', index=False)
+output_df.to_csv('data/la_ll.csv', index=False)
 print(output_df)
 
 print('CSV 파일 생성 완료')
