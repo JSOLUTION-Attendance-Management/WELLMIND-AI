@@ -84,6 +84,7 @@ if result:
             cur.execute(queryD, (user_id))
             details = cur.fetchall()
             name = details[0][0]
+            hobby = details[0][2]
 
             if element == 'LA':
                 arrival_df = df[df['ATTEND_STATUS'].isin(['LA', 'NA'])].copy()
@@ -125,7 +126,6 @@ if result:
                     prompt.append(f"너는 직원(이름: {name})의 출퇴근시간을 통해 웰니스 리포트를 작성하는 주체야. 이 직원은 {type}이고, 총 기록 일수: {total_days}일, 평균 출근 시간: {average_time.strftime('%H:%M')}, 지각 기준 시각을 9시 이후로 했을때 지각률: {late_rate:.2f}%, 출근 시간 분포:{time_distribution}, 요일별 평균 출근 시간:\n{weekday_avg}, 월별 평균 출근 시간:\n{monthly_avg}\n이야. (데이터에서 유의미한 결론을 도출해서 작성해줘.) 원인: 시간 관리 문제, 아침 루틴 부재 등등, 해결책: 시간 관리, 아침 루틴(규칙적인 수면시간, 식습관) 만들기 등 이고, 이를 활용하여 (출근시간 및 지각패턴 분석->원인 추측 및 건강 리스크->권장사항 및 해결책) 순서로 리포트를 줄글로 작성해줘.")
                 if details[0][1] == b'\x01':
                     type = "장거리 통근 지각빈발형"
-                    hobby = details[0][2]
                     prompt.append(f"너는 직원(이름: {name})의 출퇴근시간을 통해 웰니스 리포트를 작성하는 주체야. 이 직원은 {type}이고, 총 기록 일수: {total_days}일, 평균 출근 시간: {average_time.strftime('%H:%M')}, 지각 기준 시각을 9시 이후로 했을때 지각률: {late_rate:.2f}%, 출근 시간 분포:{time_distribution}, 요일별 평균 출근 시간:\n{weekday_avg}, 월별 평균 출근 시간:\n{monthly_avg}\n이야. (데이터에서 유의미한 결론을 도출해서 작성해줘.) 건강 리스크: 만성 피로, 좌식생활 건강문제(허리..), 스트레스, 우울증 등등, 해결책: 수면시간 확보, 건강 관리 및 우울증 예방를 위한 균형잡힌 식사와 규칙적인 운동이나 취미활동({hobby}), 근무시간 조절 권장 등 이고, 이를 활용하여 (출근시간 및 지각패턴 분석->원인 추측 및 건강 리스크->권장사항 및 해결책) 순서로 리포트를 줄글로 작성해줘.")
 
             elif element == 'LL':

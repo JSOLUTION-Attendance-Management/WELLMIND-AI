@@ -16,7 +16,6 @@ workdays = weekdays[~weekdays.isin(pd.to_datetime(holidays))]
 
 # 데이터 프레임 생성
 records = []
-record_idx = 507
 user_idx = 2
 
 #빈도 조절을 위한 변수
@@ -32,16 +31,13 @@ ll_probability = 0.1  # 야근 / 정상:0.1 비정상:0.3
 for date in workdays:
     # 특별한 상태 (출장, 결근, 휴가) 처리
     if np.random.rand() < ab_probability:
-        records.append([record_idx, user_idx, 'AB', date + timedelta(hours=18)])
-        record_idx += 1
+        records.append([user_idx, 'AB', date + timedelta(hours=18)])
         continue
     elif np.random.rand() < vc_probability:
-        records.append([record_idx, user_idx, 'VC', date + timedelta(hours=18)])
-        record_idx += 1
+        records.append([user_idx, 'VC', date + timedelta(hours=18)])
         continue
     elif np.random.rand() < bt_probability:
-        records.append([record_idx, user_idx, 'BT', date + timedelta(hours=18)])
-        record_idx += 1
+        records.append([user_idx, 'BT', date + timedelta(hours=18)])
         continue
 
     # 출근 처리
@@ -51,40 +47,35 @@ for date in workdays:
     else:
         status = 'LA'
         checkin_time = date + timedelta(hours=9, minutes=np.random.randint(1, 30))
-    records.append([record_idx, user_idx, status, checkin_time])
-    record_idx += 1
+    records.append([user_idx, status, checkin_time])
 
     # 외출 처리
     if np.random.rand() < ot_probability:
         out_time = date + timedelta(hours=np.random.randint(11, 15), minutes=np.random.randint(0, 60))
-        records.append([record_idx, user_idx, 'OT', out_time])
-        record_idx += 1
+        records.append([user_idx, 'OT', out_time])
 
         # 조퇴 또는 복귀 처리
         if np.random.rand() < otel_probability:
             el_time = out_time + timedelta(hours=np.random.randint(1, 3))
-            records.append([record_idx, user_idx, 'EL', el_time])
-            record_idx += 1
+            records.append([user_idx, 'EL', el_time])
             continue  # 해당 날의 기록 종료
         else:
             in_time = out_time + timedelta(hours=1, minutes=np.random.randint(0, 60))
-            records.append([record_idx, user_idx, 'RT', in_time])
-            record_idx += 1
+            records.append([user_idx, 'RT', in_time])
 
     # 퇴근 처리
     if np.random.rand() < el_probability:
         el_time = date + timedelta(hours=np.random.randint(15, 18), minutes=np.random.randint(0, 60))
-        records.append([record_idx, user_idx, 'EL', el_time])
+        records.append([user_idx, 'EL', el_time])
     elif np.random.rand() < ll_probability:
         ll_time = date + timedelta(hours=19, minutes=np.random.randint(0, 90))
-        records.append([record_idx, user_idx, 'LL', ll_time])
+        records.append([user_idx, 'LL', ll_time])
     else:
         nl_time = date + timedelta(hours=18, minutes=np.random.randint(0, 30))
-        records.append([record_idx, user_idx, 'NL', nl_time])
-    record_idx += 1
+        records.append([user_idx, 'NL', nl_time])
 
 # CSV 파일로 저장
-output_df = pd.DataFrame(records, columns=['ATTEND_RECORD_IDX', 'USER_IDX', 'ATTEND_STATUS', 'REG_DATE'])
+output_df = pd.DataFrame(records, columns=['USER_IDX', 'ATTEND_STATUS', 'REG_DATE'])
 output_df.to_csv('data/la_ll.csv', index=False)
 print(output_df)
 
